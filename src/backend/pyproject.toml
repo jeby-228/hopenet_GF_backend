@@ -15,13 +15,12 @@ dependencies = [
   "fastapi-cli>=0.0.13",
   "fastapi-users[sqlalchemy]>=14.0.1",
   "fastcrud>=0.17",
-  "httpx>=0.28.1",
-  "hypothesis>=6.140.2",
   "jinja2>=3.1.6",
   "psycopg2-binary>=2.9.10",
   "pydantic>=2.11.9",
   "pydantic-extra-types>=2.10.5",
   "pydantic-settings>=2.11",
+  "pytest-cov>=7",
   "python-multipart>=0.0.20",
   "sqlmodel>=0.0.25",
   "uvicorn>=0.37",
@@ -29,5 +28,114 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+  "httpx>=0.28.1",
+  "hypothesis>=6.140.2",
+  "inline-snapshot>=0.29.3",
   "pytest>=8.4.2",
 ]
+
+[tool.ruff]
+line-length = 120
+fix = true
+show-fixes = true
+output-format = "full"
+format.quote-style = "single"
+
+lint.extend-select = [
+  "A",   # flake8-builtins
+  "AIR", # Airflow
+  # "ANN",   # flake8-annotations
+  "ANN001", # missing-type-function-argument
+  "ANN401", # any-type
+  # "ARG",    # flake8-unused-arguments
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear
+  "BLE",   # flake8-blind-except
+  "C4",    # flake8-comprehensions
+  "C90",   # mccabe
+  "COM",   # flake8-commas
+  # "CPY",   # flake8-copyright
+  # "D",     # pydocstyle
+  "DJ", # flake8-django
+  # "DOC", # pydoclint
+  "DTZ", # flake8-datetimez
+  "E",   # pycodestyle Error
+  "EM",  # flake8-errmsg
+  # "ERA", # eradicate
+  "EXE", # flake8-executable
+  "F",   # Pyflakes
+  # "FA",   # flake8-future-annotations
+  "FAST", # FastAPI
+  "FBT",  # flake8-boolean-trap
+  # "FIX",  # flake8-fixme
+  "FLY",  # flynt
+  "FURB", # refurb
+  "G",    # flake8-logging-format
+  "I",    # isort
+  "ICN",  # flake8-import-conventions
+  # "INP",  # flake8-no-pep420
+  "INT", # flake8-gettext
+  "ISC", # flake8-implicit-str-concat
+  "LOG", # flake8-logging
+  "N",   # pep8-naming
+  "NPY", # NumPy-specific rules
+  "PD",  # pandas-vet
+  # "PERF", # Perflint
+  "PGH", # pygrep-hooks
+  "PIE", # flake8-pie
+  "PL",  # Pylint
+  "PT",  # flake8-pytest-style
+  "PTH", # flake8-use-pathlib
+  "PYI", # flake8-pyi
+  # "Q",   # flake8-quotes
+  "RET", # flake8-return
+  "RSE", # flake8-raise
+  "RUF", # Ruff-specific rules
+  "S",   # flake8-bandit
+  # "SIM",  # flake8-simplify
+  "SLF",  # flake8-self
+  "SLOT", # flake8-slots
+  "T10",  # flake8-debugger
+  # "T20",   # flake8-print
+  "TC", # flake8-type-checking
+  # "TD",  # flake8-todos
+  "TID", # flake8-tidy-imports
+  "TRY", # tryceratops
+  "UP",  # pyupgrade
+  "W",   # pycodestyle Warning
+  "YTT", # flake8-2020
+]
+lint.extend-ignore = [
+  "ANN401",
+  "COM812",
+  "G004",
+  "ISC001",
+  "RET504", # Unnecessary assignment before return statement
+  "RUF001",
+  "RUF003",
+  "S101",   # Use of `assert` detected
+  "TID252",
+]
+
+lint.flake8-import-conventions.aliases.typing = "t"
+lint.flake8-import-conventions.banned-from = [ "typing" ]
+
+lint.isort.force-single-line = true
+lint.isort.force-sort-within-sections = true
+lint.isort.known-local-folder = [
+  #
+  "app",
+]
+lint.isort.lines-after-imports = 2
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib -r fEsxX --showlocals --tb=short"
+pythonpath = [ "." ]
+
+[tool.coverage.report]
+show_missing = true
+# skip_covered = true
+skip_empty = true
+
+[tool.inline-snapshot]
+format-command = "ruff format --stdin-filename {filename}"

@@ -1,11 +1,13 @@
 from logging.config import fileConfig
 
-from alembic import context
-from app import models
-from app.settings.database_setting import database_settings
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlmodel import SQLModel
+
+from alembic import context
+
+from app import models
+from app.settings.database_setting import database_settings
 
 
 _ = models

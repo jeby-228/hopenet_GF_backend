@@ -1,10 +1,11 @@
 import warnings
 
-from app.schemas.item_schema import CreateItemSchema
-from app.schemas.task_schema import CreateTaskSchema
 from hypothesis import find
 from hypothesis import strategies as st
 from hypothesis.errors import NonInteractiveExampleWarning
+
+from app.schemas.item_schema import CreateItemSchema
+from app.schemas.task_schema import CreateTaskSchema
 
 
 warnings.filterwarnings('ignore', category=NonInteractiveExampleWarning)

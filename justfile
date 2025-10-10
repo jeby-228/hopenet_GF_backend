@@ -33,3 +33,8 @@ alembic-migrate *args: (alembic "upgrade head")
 # 重置資料庫
 [group('alembic')]
 alembic-reset-db: (alembic "downgrade base") (alembic "upgrade head")
+
+pytest *args:
+    {{ DCO }} run --rm backend uv run pytest {{ args }}
+
+pytest-cov *args: (pytest "--cov=app --cov-report=term --cov-report=html" args)
