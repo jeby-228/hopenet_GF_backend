@@ -1,0 +1,12 @@
+__pycache__/
+
+.pytest_cache/
+.venv/
+
+/volumes/
+
+/.env.bak
+/.env.*-secrets*
+
+/docs/
+/compose.docs.yml

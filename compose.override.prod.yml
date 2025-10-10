@@ -1,0 +1,45 @@
+volumes:
+  pgadmin_data:
+  db_data:
+
+services:
+  pgadmin:
+    ports:
+      - 5050:5050
+    restart: always
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin/
+
+  db:
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data/pgdata/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  backend:
+    ports:
+      - 8000:8000
+      # TODO
+      - 80:8000
+      - 443:8000
+    restart: always
+
+  tunnel:
+    image: cloudflare/cloudflared:2025.2.1
+    tty: true
+    # network_mode: host
+    command:
+      - tunnel
+      - --loglevel=debug
+      # - --metrics=0.0.0.0:20241
+      - --no-autoupdate
+      - run
+      - --token
+      - ${CLOUDFLARED_TUNNEL_TOKEN}
