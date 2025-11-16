@@ -68,6 +68,10 @@ docker-compose run --rm backend uv run alembic upgrade head
 │       │   ├── __init__.py
 │       │   ├── logger.py
 │       │   └── main.py
+│       ├── tests                   # 測試目錄
+│       │   ├── unit               # 單元測試
+│       │   ├── integration        # 集成測試
+│       │   └── conftest.py        # pytest 配置
 │       ├── alembic.ini
 │       ├── dev.py
 │       ├── Dockerfile
@@ -76,4 +80,43 @@ docker-compose run --rm backend uv run alembic upgrade head
 ├── compose.override.dev.yml
 ├── compose.override.prod.yml
 ├── compose.yml
+├── test.hurl                       # Hurl 集成測試
+└── TESTING.md                      # 測試文檔
 ```
+
+## 測試
+
+本專案使用多種測試方法來確保程式碼品質：
+
+### Hurl 集成測試
+
+快速測試 API 端點：
+
+```sh
+# 確保後端服務正在運行
+docker-compose up -d
+
+# 執行 Hurl 測試
+hurl --test test.hurl
+```
+
+### Pytest 單元測試與集成測試
+
+```sh
+cd src/backend
+
+# 安裝測試依賴
+uv sync --dev
+
+# 執行所有測試
+uv run pytest
+
+# 執行特定測試
+uv run pytest tests/unit/          # 只執行單元測試
+uv run pytest tests/integration/   # 只執行集成測試
+
+# 執行帶覆蓋率報告
+uv run pytest --cov=app --cov-report=html
+```
+
+詳細測試文檔請參閱 [TESTING.md](TESTING.md)。
